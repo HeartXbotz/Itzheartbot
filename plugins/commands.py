@@ -531,9 +531,6 @@ async def start(client, message):
                     return
             if STREAM_MODE == True:
                 button.append([[InlineKeyboardButton('🚀 Fast Download / Watch Online🖥️', callback_data=f'generate_stream_link:{file_id}')],
-          
-             [ InlineKeyboardButton('📌 Jᴏɪɴ Uᴘᴅᴀᴛᴇꜱ Cʜᴀɴɴᴇʟ 📌', url=f'https://t.me/CCMTamil') 
-             ]]) #Don't change anything without contacting me @LazyDeveloperr
             msg = await client.send_cached_media(
                 chat_id=message.from_user.id,
                 file_id=file_id,
@@ -588,6 +585,12 @@ async def start(client, message):
                         reply_markup=InlineKeyboardMarkup(btn)
                     )
                     return
+	    button = [[
+                InlineKeyboardButton('Sᴜᴘᴘᴏʀᴛ Gʀᴏᴜᴘ', url=f'https://t.me/{SUPPORT_CHAT}'),
+                InlineKeyboardButton('Uᴘᴅᴀᴛᴇs Cʜᴀɴɴᴇʟ', url=CHNL_LNK)
+            ],[
+                InlineKeyboardButton("𝗕𝗢𝗧 𝗢𝗪𝗡𝗘𝗥", url="t.me/KingVJ01")
+            ]]
             if STREAM_MODE == True:
                 button.append([InlineKeyboardButton('🚀 Fast Download / Watch Online🖥️', callback_data=f'generate_stream_link:{file_id}')])
             msg = await client.send_cached_media(
@@ -646,7 +649,12 @@ async def start(client, message):
                 reply_markup=InlineKeyboardMarkup(btn)
             )
             return
-    
+     button = [[
+                InlineKeyboardButton('Sᴜᴘᴘᴏʀᴛ Gʀᴏᴜᴘ', url=f'https://t.me/{SUPPORT_CHAT}'),
+                InlineKeyboardButton('Uᴘᴅᴀᴛᴇs Cʜᴀɴɴᴇʟ', url=CHNL_LNK)
+            ],[
+                InlineKeyboardButton("𝗕𝗢𝗧 𝗢𝗪𝗡𝗘𝗥", url="t.me/KingVJ01")
+            ]]
     if STREAM_MODE == True:
         button.append([InlineKeyboardButton('🚀 Fast Download / Watch Online🖥️', callback_data=f'generate_stream_link:{file_id}')])
     msg = await client.send_cached_media(
