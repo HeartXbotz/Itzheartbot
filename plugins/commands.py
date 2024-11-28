@@ -1369,58 +1369,62 @@ async def fsub(client, message):
     await message.reply_text(f"<b>Successfully set force channels for {title} to\n\n{channels}\n\nYou can remove it by /nofsub.</b>")
         
 
-@Client.on_message(filters.command("add_premium"))
+ @Client.on_message(filters.command("add_premium") & filters.user(ADMINS))
 async def give_premium_cmd_handler(client, message):
-    if PREMIUM_AND_REFERAL_MODE == False:
-        return 
-    user_id = message.from_user.id
-    if user_id not in ADMINS:
-        await message.delete()
-        return
-    if len(message.command) == 3:
+    if len(message.command) == 4:
+        time_zone = datetime.datetime.now(pytz.timezone("Asia/Kolkata"))
+        current_time = time_zone.strftime("%d-%m-%Y\n⏱️ ᴊᴏɪɴɪɴɢ ᴛɪᴍᴇ : %I:%M:%S %p") 
         user_id = int(message.command[1])  # Convert the user_id to integer
-        time = message.command[2]        
+        user = await client.get_users(user_id)
+        time = message.command[2]+" "+message.command[3]
         seconds = await get_seconds(time)
+        
         if seconds > 0:
-            expiry_time = datetime.datetime.now() + datetime.timedelta(seconds=seconds)
-            user_data = {"id": user_id, "expiry_time": expiry_time} 
+            data = await db.get_user(user_id)
+            if data:
+                expiry_time = data.get("expiry_time")
+                if expiry_time:
+                    # If user already has an expiry time, add the new duration to it
+                    expiry_time = expiry_time + datetime.timedelta(seconds=seconds)
+                else:
+                    # If no expiry time, set it to the current time plus the new duration
+                    expiry_time = datetime.datetime.now() + datetime.timedelta(seconds=seconds)
+            else:
+                # If user is not in the database, set the expiry time to the current time plus the new duration
+                expiry_time = datetime.datetime.now() + datetime.timedelta(seconds=seconds)
+            
+            user_data = {"id": user_id, "expiry_time": expiry_time}  # Using "id" instead of "user_id"  
             await db.update_user(user_data)  # Use the update_user method to update or insert user data
-            await message.reply_text("Premium access added to the user.")            
+            data = await db.get_user(user_id)
+            expiry = data.get("expiry_time")   
+            expiry_str_in_ist = expiry.astimezone(pytz.timezone("Asia/Kolkata")).strftime("%d-%m-%Y\n⏱️ ᴇxᴘɪʀʏ ᴛɪᴍᴇ : %I:%M:%S %p")         
+            await message.reply_text(f"ᴘʀᴇᴍɪᴜᴍ ᴀᴅᴅᴇᴅ ꜱᴜᴄᴄᴇꜱꜱꜰᴜʟʟʏ ✅\n\n👤 ᴜꜱᴇʀ : {user.mention}\n⚡ ᴜꜱᴇʀ ɪᴅ : <code>{user_id}</code>\n⏰ ᴘʀᴇᴍɪᴜᴍ ᴀᴄᴄᴇꜱꜱ : <code>{time}</code>\n\n⏳ ᴊᴏɪɴɪɴɢ ᴅᴀᴛᴇ : {current_time}\n\n⌛️ ᴇxᴘɪʀʏ ᴅᴀᴛᴇ : {expiry_str_in_ist}", disable_web_page_preview=True)
             await client.send_message(
                 chat_id=user_id,
-                text=f"<b>ᴘʀᴇᴍɪᴜᴍ ᴀᴅᴅᴇᴅ ᴛᴏ ʏᴏᴜʀ ᴀᴄᴄᴏᴜɴᴛ ꜰᴏʀ {time} ᴇɴᴊᴏʏ 😀\n</b>",                
-            )
+                text=f"👋 ʜᴇʏ {user.mention},\nᴛʜᴀɴᴋ ʏᴏᴜ ꜰᴏʀ ᴘᴜʀᴄʜᴀꜱɪɴɢ ᴘʀᴇᴍɪᴜᴍ.\nᴇɴᴊᴏʏ !! ✨🎉\n\n⏰ ᴘʀᴇᴍɪᴜᴍ ᴀᴄᴄᴇꜱꜱ : <code>{time}</code>\n⏳ ᴊᴏɪɴɪɴɢ ᴅᴀᴛᴇ : {current_time}\n\n⌛️ ᴇxᴘɪʀʏ ᴅᴀᴛᴇ : {expiry_str_in_ist}", disable_web_page_preview=True              
+            )        
+            await client.send_message(PREMIUM_LOGS, text=f"#Added_Premium\n\n👤 ᴜꜱᴇʀ : {user.mention}\n⚡ ᴜꜱᴇʀ ɪᴅ : <code>{user_id}</code>\n⏰ ᴘʀᴇᴍɪᴜᴍ ᴀᴄᴄᴇꜱꜱ : <code>{time}</code>\n\n⏳ ᴊᴏɪɴɪɴɢ ᴅᴀᴛᴇ : {current_time}\n\n⌛️ ᴇxᴘɪʀʏ ᴅᴀᴛᴇ : {expiry_str_in_ist}", disable_web_page_preview=True)
+                    
         else:
-            await message.reply_text("Invalid time format. Please use '1day for days', '1hour for hours', or '1min for minutes', or '1month for months' or '1year for year'")
+            await message.reply_text("Invalid time format. Please use '1 day for days', '1 hour for hours', or '1 min for minutes', or '1 month for months' or '1 year for year'")
     else:
-        await message.reply_text("<b>Usage: /add_premium user_id time \n\nExample /add_premium 1252789 10day \n\n(e.g. for time units '1day for days', '1hour for hours', or '1min for minutes', or '1month for months' or '1year for year')</b>")
+        await message.reply_text("Usage : /add_premium user_id time (e.g., '1 day for days', '1 hour for hours', or '1 min for minutes', or '1 month for months' or '1 year for year')")
         
-@Client.on_message(filters.command("remove_premium"))
-async def remove_premium_cmd_handler(client, message):
-    if PREMIUM_AND_REFERAL_MODE == False:
-        return 
-    user_id = message.from_user.id
-    if user_id not in ADMINS:
-        await message.delete()
-        return
+@Client.on_message(filters.command("remove_premium") & filters.user(ADMINS))
+async def remove_premium(client, message):
     if len(message.command) == 2:
         user_id = int(message.command[1])  # Convert the user_id to integer
-      #  time = message.command[2]
-        time = "1s"
-        seconds = await get_seconds(time)
-        if seconds > 0:
-            expiry_time = datetime.datetime.now() + datetime.timedelta(seconds=seconds)
-            user_data = {"id": user_id, "expiry_time": expiry_time}  # Using "id" instead of "user_id"
-            await db.update_user(user_data)  # Use the update_user method to update or insert user data
-            await message.reply_text("Premium access removed to the user.")
+        user = await client.get_users(user_id)
+        if await db.remove_premium_access(user_id):
+            await message.reply_text("ᴜꜱᴇʀ ʀᴇᴍᴏᴠᴇᴅ ꜱᴜᴄᴄᴇꜱꜱꜰᴜʟʟʏ !")
             await client.send_message(
                 chat_id=user_id,
-                text=f"<b>premium removed by admins \n\n Contact Admin if this is mistake \n\n 👮 Admin : @{OWNER_USERNAME} \n</b>",                
+                text=f"<b>ʜᴇʏ {user.mention},\n\nʏᴏᴜʀ ᴘʀᴇᴍɪᴜᴍ ᴀᴄᴄᴇss ʜᴀs ʙᴇᴇɴ ʀᴇᴍᴏᴠᴇᴅ.\nᴛʜᴀɴᴋ ʏᴏᴜ ꜰᴏʀ ᴜsɪɴɢ ᴏᴜʀ sᴇʀᴠɪᴄᴇ 😊\nᴄʟɪᴄᴋ ᴏɴ /plan ᴛᴏ ᴄʜᴇᴄᴋ ᴏᴜᴛ ᴏᴛʜᴇʀ ᴘʟᴀɴꜱ.</b>"
             )
         else:
-            await message.reply_text("Invalid time format.'")
+            await message.reply_text("ᴜɴᴀʙʟᴇ ᴛᴏ ʀᴇᴍᴏᴠᴇ ᴜꜱᴇᴅ !\nᴀʀᴇ ʏᴏᴜ ꜱᴜʀᴇ, ɪᴛ ᴡᴀꜱ ᴀ ᴘʀᴇᴍɪᴜᴍ ᴜꜱᴇʀ ɪᴅ ?")
     else:
-        await message.reply_text("Usage: /remove_premium user_id")
+        await message.reply_text("ᴜꜱᴀɢᴇ : /remove_premium user_id") 
         
 @Client.on_message(filters.command("plan"))
 async def plans_cmd_handler(client, message): 
@@ -1438,25 +1442,112 @@ async def plans_cmd_handler(client, message):
     )
         
 @Client.on_message(filters.command("myplan"))
-async def check_plans_cmd(client, message):
-    if PREMIUM_AND_REFERAL_MODE == False:
-        return 
-    user_id  = message.from_user.id
-    if await db.has_premium_access(user_id):         
-        remaining_time = await db.check_remaining_uasge(user_id)             
-        expiry_time = remaining_time + datetime.datetime.now()
-        await message.reply_text(f"**Your plans details are :\n\nRemaining Time : {remaining_time}\n\nExpirytime : {expiry_time}**")
+async def myplan(client, message):
+    await message.react(emoji=random.choice(EMOJIS), big=True)
+    user = message.from_user.mention 
+    user_id = message.from_user.id
+    data = await db.get_user(message.from_user.id)  # Convert the user_id to integer
+    if data and data.get("expiry_time"):
+        #expiry_time = datetime.datetime.now() + datetime.timedelta(seconds=data)
+        expiry = data.get("expiry_time") 
+        expiry_ist = expiry.astimezone(pytz.timezone("Asia/Kolkata"))
+        expiry_str_in_ist = expiry.astimezone(pytz.timezone("Asia/Kolkata")).strftime("%d-%m-%Y\n⏱️ ᴇxᴘɪʀʏ ᴛɪᴍᴇ : %I:%M:%S %p")            
+        # Calculate time difference
+        current_time = datetime.datetime.now(pytz.timezone("Asia/Kolkata"))
+        time_left = expiry_ist - current_time
+            
+        # Calculate days, hours, and minutes
+        days = time_left.days
+        hours, remainder = divmod(time_left.seconds, 3600)
+        minutes, seconds = divmod(remainder, 60)
+            
+        # Format time left as a string
+        time_left_str = f"{days} ᴅᴀʏꜱ, {hours} ʜᴏᴜʀꜱ, {minutes} ᴍɪɴᴜᴛᴇꜱ"
+        await message.reply_text(f"⚜️ ᴘʀᴇᴍɪᴜᴍ ᴜꜱᴇʀ ᴅᴀᴛᴀ :\n\n👤 ᴜꜱᴇʀ : {user}\n⚡ ᴜꜱᴇʀ ɪᴅ : <code>{user_id}</code>\n⏰ ᴛɪᴍᴇ ʟᴇꜰᴛ : {time_left_str}\n⌛️ ᴇxᴘɪʀʏ ᴅᴀᴛᴇ : {expiry_str_in_ist}")   
     else:
-        btn = [ 
-            [InlineKeyboardButton("ɢᴇᴛ ғʀᴇᴇ ᴛʀᴀɪʟ ғᴏʀ 𝟻 ᴍɪɴᴜᴛᴇꜱ ☺️", callback_data="get_trail")],
-            [InlineKeyboardButton("ʙᴜʏ sᴜʙsᴄʀɪᴘᴛɪᴏɴ : ʀᴇᴍᴏᴠᴇ ᴀᴅs", callback_data="buy_premium")],
-            [InlineKeyboardButton("⚠️ ᴄʟᴏsᴇ / ᴅᴇʟᴇᴛᴇ ⚠️", callback_data="close_data")]
-        ]
-        reply_markup = InlineKeyboardMarkup(btn)
-        m=await message.reply_sticker("CAACAgIAAxkBAAIBTGVjQbHuhOiboQsDm35brLGyLQ28AAJ-GgACglXYSXgCrotQHjibHgQ")         
-        await message.reply_text(f"**😢 You Don't Have Any Premium Subscription.\n\n Check Out Our Premium /plan**",reply_markup=reply_markup)
-        await asyncio.sleep(2)
-        await m.delete()
+        await message.reply_text(f"ʜᴇʏ {user},\n\nʏᴏᴜ ᴅᴏ ɴᴏᴛ ʜᴀᴠᴇ ᴀɴʏ ᴀᴄᴛɪᴠᴇ ᴘʀᴇᴍɪᴜᴍ ᴘʟᴀɴs, ɪꜰ ʏᴏᴜ ᴡᴀɴᴛ ᴛᴏ ᴛᴀᴋᴇ ᴘʀᴇᴍɪᴜᴍ ᴛʜᴇɴ ᴄʟɪᴄᴋ ᴏɴ ʙᴇʟᴏᴡ ʙᴜᴛᴛᴏɴ 👇",
+	reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("💸 ᴄʜᴇᴄᴋᴏᴜᴛ ᴘʀᴇᴍɪᴜᴍ ᴘʟᴀɴꜱ 💸", callback_data='seeplans')],[InlineKeyboardButton("ɢᴇᴛ ғʀᴇᴇ ᴛʀᴀɪʟ ғᴏʀ 𝟻 ᴍɪɴᴜᴛᴇꜱ ☺️", callback_data='get_trail')]]))	
+
+@Client.on_message(filters.command("get_premium") & filters.user(ADMINS))
+async def get_premium(client, message):
+    if len(message.command) == 2:
+        user_id = int(message.command[1])
+        user = await client.get_users(user_id)
+        data = await db.get_user(user_id)  # Convert the user_id to integer
+        if data and data.get("expiry_time"):
+            #expiry_time = datetime.datetime.now() + datetime.timedelta(seconds=data)
+            expiry = data.get("expiry_time") 
+            expiry_ist = expiry.astimezone(pytz.timezone("Asia/Kolkata"))
+            expiry_str_in_ist = expiry.astimezone(pytz.timezone("Asia/Kolkata")).strftime("%d-%m-%Y\n⏱️ ᴇxᴘɪʀʏ ᴛɪᴍᴇ : %I:%M:%S %p")            
+            # Calculate time difference
+            current_time = datetime.datetime.now(pytz.timezone("Asia/Kolkata"))
+            time_left = expiry_ist - current_time
+            
+            # Calculate days, hours, and minutes
+            days = time_left.days
+            hours, remainder = divmod(time_left.seconds, 3600)
+            minutes, seconds = divmod(remainder, 60)
+            
+            # Format time left as a string
+            time_left_str = f"{days} days, {hours} hours, {minutes} minutes"
+            await message.reply_text(f"⚜️ ᴘʀᴇᴍɪᴜᴍ ᴜꜱᴇʀ ᴅᴀᴛᴀ :\n\n👤 ᴜꜱᴇʀ : {user.mention}\n⚡ ᴜꜱᴇʀ ɪᴅ : <code>{user_id}</code>\n⏰ ᴛɪᴍᴇ ʟᴇꜰᴛ : {time_left_str}\n⌛️ ᴇxᴘɪʀʏ ᴅᴀᴛᴇ : {expiry_str_in_ist}")
+        else:
+            await message.reply_text("ɴᴏ ᴀɴʏ ᴘʀᴇᴍɪᴜᴍ ᴅᴀᴛᴀ ᴏꜰ ᴛʜᴇ ᴡᴀꜱ ꜰᴏᴜɴᴅ ɪɴ ᴅᴀᴛᴀʙᴀꜱᴇ !")
+    else:
+        await message.reply_text("ᴜꜱᴀɢᴇ : /get_premium user_id")
+
+@Client.on_message(filters.command("premium_users") & filters.user(ADMINS))
+async def premium_user(client, message):
+    aa = await message.reply_text("<i>ꜰᴇᴛᴄʜɪɴɢ...</i>")
+    new = f"⚜️ ᴘʀᴇᴍɪᴜᴍ ᴜꜱᴇʀꜱ ʟɪꜱᴛ :\n\n"
+    user_count = 1
+    users = await db.get_all_users()
+    async for user in users:
+        data = await db.get_user(user['id'])
+        if data and data.get("expiry_time"):
+            expiry = data.get("expiry_time") 
+            expiry_ist = expiry.astimezone(pytz.timezone("Asia/Kolkata"))
+            expiry_str_in_ist = expiry.astimezone(pytz.timezone("Asia/Kolkata")).strftime("%d-%m-%Y\n⏱️ ᴇxᴘɪʀʏ ᴛɪᴍᴇ : %I:%M:%S %p")            
+            current_time = datetime.datetime.now(pytz.timezone("Asia/Kolkata"))
+            time_left = expiry_ist - current_time
+            days = time_left.days
+            hours, remainder = divmod(time_left.seconds, 3600)
+            minutes, seconds = divmod(remainder, 60)
+            time_left_str = f"{days} days, {hours} hours, {minutes} minutes"	 
+            new += f"{user_count}. {(await client.get_users(user['id'])).mention}\n👤 ᴜꜱᴇʀ ɪᴅ : {user['id']}\n⏳ ᴇxᴘɪʀʏ ᴅᴀᴛᴇ : {expiry_str_in_ist}\n⏰ ᴛɪᴍᴇ ʟᴇꜰᴛ : {time_left_str}\n"
+            user_count += 1
+        else:
+            pass
+    try:    
+        await aa.edit_text(new)
+    except MessageTooLong:
+        with open('usersplan.txt', 'w+') as outfile:
+            outfile.write(new)
+        await message.reply_document('usersplan.txt', caption="Paid Users:")
+
+async def add_premium(client, user_id, user):
+    seconds = 2592000
+    if seconds > 0:
+        expiry_time = datetime.datetime.now() + datetime.timedelta(seconds=seconds)
+        user_data = {"id": user_id, "expiry_time": expiry_time}  
+        await db.update_user(user_data)		    
+        await client.send_message(
+        chat_id=user_id,
+        text=f"<b>Hey {user.mention}\n\nCongratulations you have received 1 month premium subscription for referring 10 users</b>", disable_web_page_preview=True              
+        )
+        for admin in ADMINS:
+            await client.send_message(chat_id=admin, text=f"Successfully completed task by this:\n\nuser: {user.mention}\n\nuser id: {user.id}!")
+
+@Client.on_message(filters.command("plan"))
+async def plan(client, message):
+    user_id = message.from_user.id 
+    users = message.from_user.mention 
+    btn = [[
+	
+        InlineKeyboardButton("🍁 𝗖𝗹𝗶𝗰𝗸 𝗔𝗹𝗹 𝗣𝗹𝗮𝗻𝘀 & 𝗣𝗿𝗶𝗰𝗲𝘀 🍁", callback_data='free')],[InlineKeyboardButton("❌ ᴄʟᴏꜱᴇ ❌", callback_data="close_data")
+    ]]
+    await message.reply_photo(photo="https://graph.org/file/55a5392f88ec5a4bd3379.jpg", caption=script.PREMIUM_TEXT.format(message.from_user.mention), reply_markup=InlineKeyboardMarkup(btn))
+    
 
 @Client.on_message(filters.command("totalrequests") & filters.private & filters.user(ADMINS))
 async def total_requests(client, message):
