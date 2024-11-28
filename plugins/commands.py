@@ -49,18 +49,19 @@ async def start(client, message):
     if len(message.command) != 2:
         if PREMIUM_AND_REFERAL_MODE == True:
             buttons = [[
-                InlineKeyboardButton('⤬ Aᴅᴅ Mᴇ Tᴏ Yᴏᴜʀ Gʀᴏᴜᴘ ⤬', url=f'http://t.me/{temp.U_NAME}?startgroup=true')
-            ],[
-                InlineKeyboardButton('Eᴀʀɴ Mᴏɴᴇʏ 💸', callback_data="shortlink_info"),
-                InlineKeyboardButton('⌬ Mᴏᴠɪᴇ Gʀᴏᴜᴘ', url=GRP_LNK)
-            ],[
-                InlineKeyboardButton('〄 Hᴇʟᴘ', callback_data='help'),
-                InlineKeyboardButton('⍟ Aʙᴏᴜᴛ', callback_data='about')
-            ],[
-                InlineKeyboardButton('💳 Gᴇᴛ Fʀᴇᴇ Oʀ Pᴀɪᴅ Sᴜʙsᴄʀɪᴘᴛɪᴏɴ 💳', callback_data='subscription')
-            ],[
-                InlineKeyboardButton('✇ Jᴏɪɴ Uᴘᴅᴀᴛᴇs Cʜᴀɴɴᴇʟ ✇', url=CHNL_LNK)
-            ]]
+                    InlineKeyboardButton('☆ Aᴅᴅ Mᴇ Tᴏ Yᴏᴜʀ Gʀᴏᴜᴘ ☆', url=f'http://telegram.me/{temp.U_NAME}?startgroup=true')
+                ],[
+                    InlineKeyboardButton('💸 ᴇᴀʀɴ ᴍᴏɴᴇʏ 💸', callback_data="shortlink_info"),
+                    InlineKeyboardButton('✇ Sᴜᴘᴘᴏʀᴛ ✇', callback_data='JoinUᴘᴅᴀᴛᴇs')
+                ],[
+                    InlineKeyboardButton('Hᴇʟᴘ ⚙️', callback_data='help'),
+                    InlineKeyboardButton('Aʙᴏᴜᴛ ✌️', callback_data='about')
+                ],[
+                    InlineKeyboardButton('Pʀᴇᴍɪᴜᴍ 💳', callback_data="premium_info"),
+                    InlineKeyboardButton('♻️ Exᴛʀᴀ Fᴇᴀᴛᴜʀᴇꜱ ✅', callback_data='extra')
+                ],[
+                    InlineKeyboardButton('⚜️ Rᴇꜰꜰᴇʀ & Gᴇᴛ Fʀᴇᴇ Pʀᴇᴍɪᴜᴍ ⚜️', callback_data="reffff")
+                  ]]
         else:
             buttons = [[
                 InlineKeyboardButton('⤬ Aᴅᴅ Mᴇ Tᴏ Yᴏᴜʀ Gʀᴏᴜᴘ ⤬', url=f'http://t.me/{temp.U_NAME}?startgroup=true')
@@ -73,10 +74,10 @@ async def start(client, message):
             ],[
                 InlineKeyboardButton('✇ Jᴏɪɴ Uᴘᴅᴀᴛᴇs Cʜᴀɴɴᴇʟ ✇', url=CHNL_LNK)
             ]]
-        if CLONE_MODE == True:
+        if CLONE_MODE == False:
             buttons.append([InlineKeyboardButton('🤖 Cʀᴇᴀᴛᴇ Yᴏᴜʀ Oᴡɴ Cʟᴏɴᴇ Bᴏᴛ 🤖', callback_data='clone')])
         reply_markup = InlineKeyboardMarkup(buttons)
-        m=await message.reply_sticker("CAACAgUAAxkBAAEKVaxlCWGs1Ri6ti45xliLiUeweCnu4AACBAADwSQxMYnlHW4Ls8gQMAQ") 
+        m=await message.reply_sticker("CAACAgUAAxkBAAEJ90Bm-r1PWvU3dkTvtIEQ_XMebp4uYQACoQgAAqi1gVajGZF7NWM5WR4E") 
         await asyncio.sleep(1)
         await m.delete()
         await message.reply_photo(
