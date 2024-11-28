@@ -1,17 +1,18 @@
-# Don't Remove Credit @VJ_Botz
-# Subscribe YouTube Channel For Amazing Bot @Tech_VJ
-# Ask Doubt on telegram @KingVJ01
-
-import os, logging, time
+import os
 from pyrogram import Client, filters, enums
 from pyrogram.errors.exceptions.bad_request_400 import UserNotParticipant, MediaEmpty, PhotoInvalidDimensions, WebpageMediaEmpty
-from info import IMDB_TEMPLATE
-from utils import extract_user, get_file_id, get_poster, last_online 
+from utils import extract_user, get_file_id, get_poster, last_online
+import time
+from googletrans import Translator
+from googletrans.constants import LANGUAGES
 from datetime import datetime
 from pyrogram.types import InlineKeyboardMarkup, InlineKeyboardButton, CallbackQuery
-
+import logging
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.ERROR)
+bot = Client("imdb_bot")
+translator = Translator()
+
 
 @Client.on_message(filters.command('id'))
 async def showid(client, message):
@@ -130,10 +131,22 @@ async def who_is(client, message):
         )
     await status_message.delete()
 
+IMDB_TEMPLATE = """<b>
+🎬 𝗧ɪᴛʟᴇ: <code>{title}</code>
+📆 𝗬ear : {year}
+🎭 𝗚ᴇɴʀᴇ: {genres}
+🌟 𝗥ᴀᴛɪɴɢ: {rating} / 10
+
+📖 𝗦ᴛᴏʀʏ: {plot}
+
+<b><blockquote>⚠️ ɴᴏᴛᴇ : ɪғ ʏᴏᴜ ᴡᴀɴᴛ ᴛᴏ ɢᴇᴛ ᴀʟʟ ғɪʟᴇs ɪɴ ᴅɪғғᴇʀᴇɴᴛ ǫᴜᴀʟɪᴛʏ ᴀɴᴅ ʟᴀɴɢᴜᴀɢᴇs ᴛʜᴇɴ ᴄʟɪᴄᴋ ᴏɴ ʙᴇʟᴏᴡ ɢɪᴠᴇɴ ʙᴜᴛᴛᴏɴ ᴀɴᴅ sᴇᴀʀᴄʜ ᴛʜᴇʀᴇ</blockquote></b>
+
+<blockquote>🌿 ©️ Uᴘʟᴏᴀᴅ ʙʏ : <a href='https://t.me/Heart_thieft'>Hᴇᴀʀᴛ_Tʜɪᴇꜰ</a></blockquote></b>"""
+
 @Client.on_message(filters.command(["imdb", 'search']))
 async def imdb_search(client, message):
     if ' ' in message.text:
-        k = await message.reply('Searching ImDB')
+        k = await message.reply('Searching IMDb')
         r, title = message.text.split(None, 1)
         movies = await get_poster(title, bulk=True)
         if not movies:
@@ -147,7 +160,7 @@ async def imdb_search(client, message):
             ]
             for movie in movies
         ]
-        await k.edit('Here is what i found on IMDb', reply_markup=InlineKeyboardMarkup(btn))
+        await k.edit('Here is what I found on IMDb', reply_markup=InlineKeyboardMarkup(btn))
     else:
         await message.reply('Give me a movie / series Name')
 
@@ -165,6 +178,8 @@ async def imdb_callback(bot: Client, quer_y: CallbackQuery):
         ]
     message = quer_y.message.reply_to_message or quer_y.message
     if imdb:
+        plot_en = imdb['plot']
+
         caption = IMDB_TEMPLATE.format(
             query = imdb['title'],
             title = imdb['title'],
@@ -191,7 +206,7 @@ async def imdb_callback(bot: Client, quer_y: CallbackQuery):
             year = imdb['year'],
             genres = imdb['genres'],
             poster = imdb['poster'],
-            plot = imdb['plot'],
+            plot = plot_en,  # Use translated plot here
             rating = imdb['rating'],
             url = imdb['url'],
             **locals()
@@ -212,6 +227,3 @@ async def imdb_callback(bot: Client, quer_y: CallbackQuery):
     else:
         await quer_y.message.edit(caption, reply_markup=InlineKeyboardMarkup(btn), disable_web_page_preview=False)
     await quer_y.answer()
-        
-
-        
