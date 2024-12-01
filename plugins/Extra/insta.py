@@ -67,7 +67,7 @@ async def link_handler(Mbot, message):
                        x.write(requests.get(content_value,headers=headers).content)
                    dump_file=await message.reply_video(downfile,caption="ᴅᴏᴡɴʟᴏᴀᴅᴇᴅ ʙʏ @Itzheart_bot") 
             elif "/p/" in url:
-                  meta_tag = requests.post("https://saveig.app/api/ajaxSearch", data = {"q": "link", "t": "media", "lang": "en"}, headers = {"User-Agent": "YourUserAgentHere"}
+                  meta_tag = requests.post("https://saveig.app/api/ajaxSearch", data = {"q": "link", "t": "media", "lang": "en"}, headers = {"User-Agent": "YourUserAgentHere"})
                   if meta_tag.ok:
                      res=meta_tag.json()
                      meta=re.findall(r'href="(https?://[^"]+)"', res['data']) 
