@@ -2,6 +2,9 @@ from pyrogram import filters, Client
 import bs4, requests, re, asyncio
 import os, traceback, random
 from info import LOG_CHANNEL as DUMP_GROUP
+import requests
+from requests.adapters import HTTPAdapter
+from urllib3.util.retry import Retry
 headers = {
     "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:105.0) Gecko/20100101 Firefox/105.0",
     "Accept": "*/*",
@@ -64,7 +67,7 @@ async def link_handler(Mbot, message):
                        x.write(requests.get(content_value,headers=headers).content)
                    dump_file=await message.reply_video(downfile,caption="ᴅᴏᴡɴʟᴏᴀᴅᴇᴅ ʙʏ @Itzheart_bot") 
             elif "/p/" in url:
-                  meta_tag = requests.post("https://saveig.app/api/ajaxSearch", data={"q": link, "t": "media", "lang": "en"}, headers=headers)
+                  meta_tag = requests.post("https://saveig.app/api/ajaxSearch", data = {"q": "link", "t": "media", "lang": "en"}, headers = {"User-Agent": "YourUserAgentHere"}
                   if meta_tag.ok:
                      res=meta_tag.json()
                      meta=re.findall(r'href="(https?://[^"]+)"', res['data']) 
