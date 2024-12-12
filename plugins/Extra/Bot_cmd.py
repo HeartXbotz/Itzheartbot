@@ -6,13 +6,13 @@ from info import ADMINS
 async def set_commands(client, message):
     commands = [
         BotCommand("start", "ᴛᴏ ꜱᴛᴀʀᴛ ᴛʜᴇ ʙᴏᴛ"),
+        BotCommand("post", "ᴛᴏ ᴄʀᴇᴀᴛᴇ ᴀ ᴍᴏᴠɪᴇ ᴘᴏꜱᴛ ᴡɪᴛʜ ꜱʜᴏʀᴛɴᴇʀ"),
         BotCommand("group_rule", "ᴛᴏ ᴋɴᴏᴡ ᴛʜᴇ ɢʀᴏᴜᴘ ʀᴜʟᴇꜱ"),
         BotCommand("stats", "ᴄʜᴇᴄᴋ ᴍʏ ᴅᴀᴛᴀʙᴀꜱᴇ"),
         BotCommand("request", "sᴇɴᴅ ᴀ Mᴏᴠɪᴇ/Sᴇʀɪᴇs ʀᴇᴏ‌ᴜᴇsᴛ ᴛᴏ ʙᴏᴛ ᴀᴅᴍɪɴs. ( ᴏɴʟʏ ᴡᴏʀᴋs ᴏɴ sᴜᴘᴘᴏʀᴛ ɢʀᴏᴜᴘ )"),
         BotCommand("imdb", "ɢᴇᴛ ᴛʜᴇ ꜰɪʟᴍ ɪɴꜰᴏʀᴍᴀᴛɪᴏɴ ꜰʀᴏᴍ ɪᴍᴅʙ ꜱᴏᴜʀᴄᴇ"),
         BotCommand("plan", "ᴄʜᴇᴄᴋ ᴀᴠᴀɪʟᴀʙʟᴇ ᴘʀᴇᴍɪᴜᴍ ᴍᴇᴍʙᴇʀꜱʜɪᴘ ᴘʟᴀɴꜱ"),
         BotCommand("myplan", "ᴄʜᴇᴄᴋ ʏᴏᴜʀ ᴄᴜʀʀᴜɴᴛ ᴘʟᴀɴ"),
-        BotCommand("redeem", "𝑇𝑜 𝑅𝑒𝑑𝑒𝑒𝑚 𝑃𝑟𝑒𝑚𝑖𝑢𝑚 𝐶𝑜𝑑𝑒"),
         BotCommand("refer", "ᴛᴏ ʀᴇꜰᴇʀ ʏᴏᴜʀ ꜰʀɪᴇɴᴅ ᴀɴᴅ ɢᴇᴛ ᴘʀᴇᴍɪᴜᴍ"),
         BotCommand("id", "ɢᴇᴛ ᴛᴇʟᴇɢʀᴀᴍ ɪᴅ"),
         BotCommand("info", "ɢᴇᴛ ᴜꜱᴇʀ ɪɴꜰᴏ"),
