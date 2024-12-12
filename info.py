@@ -131,15 +131,15 @@ VERIFY_SND_SHORTLINK_API = environ.get('VERIFY_SND_SHORTLINK_API', '')
 
 
 # Shortlink Info
-SHORTLINK_MODE = bool(environ.get('SHORTLINK_MODE', False)) # Set True Or False
-SHORTLINK_URL = environ.get('SHORTLINK_URL', 'gplinks.com')
-SHORTLINK_API = environ.get('SHORTLINK_API', '89c5f49bb30bf45ddae5d35314cc7525a36aceb0')
+SHORTLINK_MODE = bool(environ.get('SHORTLINK_MODE', True)) # Set True Or False
+SHORTLINK_URL = environ.get('SHORTLINK_URL', 'Modijiurl.com')
+SHORTLINK_API = environ.get('SHORTLINK_API', '69bfe45fc35b6b3178b4b95de9ef1db14a746ce7')
 TUTORIAL = environ.get('TUTORIAL', 'https://t.me/How_To_Get_Movie') # How Open Shortner Link Video Link , Channel Link Where You Upload Your Video.
 
 
 # Others
 MAX_B_TN = environ.get("MAX_B_TN", "5")
-PORT = environ.get("PORT", "8080")
+PORT = environ.get("PORT", "80")
 MSG_ALRT = environ.get('MSG_ALRT', 'ᴍᴀɪɴᴛᴀɪɴᴇᴅ ʙʏ: ʜᴇᴀʀᴛ_ᴛʜɪᴇꜰ 😇')
 CUSTOM_FILE_CAPTION = environ.get("CUSTOM_FILE_CAPTION", f"{script.CAPTION}")
 BATCH_FILE_CAPTION = environ.get("BATCH_FILE_CAPTION", CUSTOM_FILE_CAPTION)
@@ -172,7 +172,7 @@ if 'DYNO' in environ:
     ON_HEROKU = True
 else:
     ON_HEROKU = False
-URL = environ.get("URL", "https://premiumbot.koyeb.app/")
+URL = environ.get("URL", "https://web-ux21upqgk4qx.up-de-fra1-k8s-1.apps.run-on-seenode.com/")
 
 
 # Rename Info : If True Then Bot Rename File Else Not
