@@ -2714,7 +2714,7 @@ async def cb_handler(client: Client, query: CallbackQuery):
             InlineKeyboardButton('☆ Uꜱᴇʀ ☆', callback_data='users'),
             InlineKeyboardButton('ﾒ Gʀᴏᴜᴘ ﾒ', callback_data='group')
         ], [
-            InlineKeyboardButton(' STATUS', callback_data='stats')
+            InlineKeyboardButton('☞ Sᴛᴀᴛᴜꜱ ☜', callback_data='stats')
         ], [
             InlineKeyboardButton('⇋ ʙᴀᴄᴋ ᴛᴏ ʜᴏᴍᴇ ⇋', callback_data='start')
         ]]
@@ -2759,7 +2759,7 @@ async def cb_handler(client: Client, query: CallbackQuery):
  
     elif query.data == "Source":
         buttons = [[
-            InlineKeyboardButton('Repo', url='https://gplinks.co/3zLINic0')
+            InlineKeyboardButton('Repo', url='https://t.me/HeartXBotz')
         ],[
             InlineKeyboardButton('⇇ ʙᴀᴄᴋ ', callback_data='about'),
             InlineKeyboardButton('⇋ ᴄʟᴏsᴇ ⇋', callback_data='close_data')
@@ -2869,7 +2869,7 @@ async def cb_handler(client: Client, query: CallbackQuery):
     elif query.data == "tele":
             btn = [[
                     InlineKeyboardButton("⟸ Bᴀᴄᴋ", callback_data="help"),
-                    InlineKeyboardButton("Cᴏɴᴛᴀᴄᴛ", url="telegram.me/KingVJ01")
+                    InlineKeyboardButton("Cᴏɴᴛᴀᴄᴛ", url="telegram.me/HeartXBotz")
                   ]]
             await client.edit_message_media(
                 query.message.chat.id, 
@@ -2886,7 +2886,7 @@ async def cb_handler(client: Client, query: CallbackQuery):
     elif query.data == "tamil_info":
             btn = [[
                     InlineKeyboardButton("⟸ Bᴀᴄᴋ", callback_data="start"),
-                    InlineKeyboardButton("Cᴏɴᴛᴀᴄᴛ", url="telegram.me/KingVj01")
+                    InlineKeyboardButton("Cᴏɴᴛᴀᴄᴛ", url="telegram.me/HeartXBotz")
                   ]]
             await client.edit_message_media(
                 query.message.chat.id, 
@@ -2902,7 +2902,7 @@ async def cb_handler(client: Client, query: CallbackQuery):
     elif query.data == "english_info":
             btn = [[
                     InlineKeyboardButton("⟸ Bᴀᴄᴋ", callback_data="start"),
-                    InlineKeyboardButton("Cᴏɴᴛᴀᴄᴛ", url="telegram.me/KingVj01")
+                    InlineKeyboardButton("Cᴏɴᴛᴀᴄᴛ", url="telegram.me/HeartXBotz")
                   ]]
             await client.edit_message_media(
                 query.message.chat.id, 
@@ -2918,7 +2918,7 @@ async def cb_handler(client: Client, query: CallbackQuery):
     elif query.data == "hindi_info":
             btn = [[
                     InlineKeyboardButton("⟸ Bᴀᴄᴋ", callback_data="start"),
-                    InlineKeyboardButton("Cᴏɴᴛᴀᴄᴛ", url="telegram.me/KingVj01")
+                    InlineKeyboardButton("Cᴏɴᴛᴀᴄᴛ", url="telegram.me/HeartXBotz")
                   ]]
             await client.edit_message_media(
                 query.message.chat.id, 
@@ -2934,7 +2934,7 @@ async def cb_handler(client: Client, query: CallbackQuery):
     elif query.data == "telugu_info":
             btn = [[
                     InlineKeyboardButton("⟸ Bᴀᴄᴋ", callback_data="start"),
-                    InlineKeyboardButton("Cᴏɴᴛᴀᴄᴛ", url="telegram.me/KingVj01")
+                    InlineKeyboardButton("Cᴏɴᴛᴀᴄᴛ", url="telegram.me/HeartXBotz")
                   ]]
             await client.edit_message_media(
                 query.message.chat.id, 
@@ -2950,7 +2950,7 @@ async def cb_handler(client: Client, query: CallbackQuery):
     elif query.data == "malayalam_info":
             btn = [[
                     InlineKeyboardButton("⟸ Bᴀᴄᴋ", callback_data="start"),
-                    InlineKeyboardButton("Cᴏɴᴛᴀᴄᴛ", url="telegram.me/KingVj01")
+                    InlineKeyboardButton("Cᴏɴᴛᴀᴄᴛ", url="telegram.me/HeartXBotz")
                   ]]
             await client.edit_message_media(
                 query.message.chat.id, 
@@ -2966,7 +2966,7 @@ async def cb_handler(client: Client, query: CallbackQuery):
     elif query.data == "urdu_info":
             btn = [[
                     InlineKeyboardButton("⟸ Bᴀᴄᴋ", callback_data="start"),
-                    InlineKeyboardButton("Cᴏɴᴛᴀᴄᴛ", url="telegram.me/KingVj01")
+                    InlineKeyboardButton("Cᴏɴᴛᴀᴄᴛ", url="telegram.me/HeartXBotz")
                   ]]
             await client.edit_message_media(
                 query.message.chat.id, 
@@ -2982,7 +2982,7 @@ async def cb_handler(client: Client, query: CallbackQuery):
     elif query.data == "bangladesh_info":
             btn = [[
                     InlineKeyboardButton("⟸ Bᴀᴄᴋ", callback_data="start"),
-                    InlineKeyboardButton("Cᴏɴᴛᴀᴄᴛ", url="telegram.me/KingVj01")
+                    InlineKeyboardButton("Cᴏɴᴛᴀᴄᴛ", url="telegram.me/HeartXBotz")
                   ]]
 
             await client.edit_message_media(
@@ -2999,7 +2999,7 @@ async def cb_handler(client: Client, query: CallbackQuery):
     elif query.data == "kannada_info":
             btn = [[
                     InlineKeyboardButton("⟸ Bᴀᴄᴋ", callback_data="start"),
-                    InlineKeyboardButton("Cᴏɴᴛᴀᴄᴛ", url="telegram.me/KingVj01")
+                    InlineKeyboardButton("Cᴏɴᴛᴀᴄᴛ", url="telegram.me/HeartXBotz")
                   ]]
             await client.edit_message_media(
                 query.message.chat.id, 
@@ -3015,7 +3015,7 @@ async def cb_handler(client: Client, query: CallbackQuery):
     elif query.data == "gujarati_info":
             btn = [[
                     InlineKeyboardButton("⟸ Bᴀᴄᴋ", callback_data="start"),
-                    InlineKeyboardButton("Cᴏɴᴛᴀᴄᴛ", url="telegram.me/KingVj01")
+                    InlineKeyboardButton("Cᴏɴᴛᴀᴄᴛ", url="telegram.me/HeartXBotz")
                   ]]
         
             await client.edit_message_media(
