@@ -10,7 +10,7 @@ from Script import script
 id_pattern = re.compile(r'^.\d+$')
 
 # Bot information
-SESSION = environ.get('SESSION', 'TechVJBot')
+SESSION = environ.get('SESSION', 'Movie Provider')
 API_ID = int(environ.get('API_ID', '22977776'))
 API_HASH = environ.get('API_HASH', '2ac7223d720bdeec757cbc88ced57224')
 BOT_TOKEN = environ.get('BOT_TOKEN', "7655337781:AAHHuwUW_23vloF1EFzGXA6pG1h6OKVjNwY")
@@ -66,8 +66,8 @@ DELETE_CHANNELS = [int(dch) if id_pattern.search(dch) else dch for dch in enviro
 # MongoDB information
 MULTIPLE_DATABASE = bool(environ.get('MULTIPLE_DATABASE', False)) # Set True or False
 
-DATABASE_URI = environ.get('DATABASE_URI', "mongodb+srv://jeevanantham8157:1055221@filterbot1.rrt16.mongodb.net/?retryWrites=true&w=majority&appName=Filterbot1")   # IF Multiple Database Is False Then Fill Only This Database Url.
-DATABASE_NAME = environ.get('DATABASE_NAME', "Filterbot1")
+DATABASE_URI = environ.get('DATABASE_URI', "mongodb+srv://jeevanantham8157:1055221@itzheartbot.akku7.mongodb.net/?retryWrites=true&w=majority&appName=Itzheartbot")   # IF Multiple Database Is False Then Fill Only This Database Url.
+DATABASE_NAME = environ.get('DATABASE_NAME', "Itzheartbot")
 COLLECTION_NAME = environ.get('COLLECTION_NAME', 'Telegram_files')
 
 # If Multiple Database Is True Then Fill All Three Below Database Uri Else You Will Get Error.
