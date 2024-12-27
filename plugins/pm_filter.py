@@ -2289,7 +2289,7 @@ async def cb_handler(client: Client, query: CallbackQuery):
             InlineKeyboardButton('Mᴀɴᴜᴀʟ FIʟᴛᴇʀ', callback_data='manuelfilter'),
             InlineKeyboardButton('Aᴜᴛᴏ FIʟᴛᴇʀ', callback_data='autofilter')
         ],[
-            InlineKeyboardButton('⟸ Bᴀᴄᴋ', callback_data='forward'),
+            InlineKeyboardButton('⟸ Bᴀᴄᴋ', callback_data='forward1'),
             InlineKeyboardButton('Gʟᴏʙᴀʟ Fɪʟᴛᴇʀs', callback_data='global_filters')
         ]]
         
@@ -2371,7 +2371,7 @@ async def cb_handler(client: Client, query: CallbackQuery):
              InlineKeyboardButton('🈵 Gᴏᴏɢʟᴇ Tʀᴀɴꜱʟᴀᴛᴇʀ 🆎', callback_data='gtrl'),
         ],  [ 
              InlineKeyboardButton('📄 Tᴇxᴛ Tᴏ Sᴩᴇᴇᴄʜ 🔊', callback_data='tts'),
-             InlineKeyboardButton('ꜱᴏɴɢ', callback_data='song') 
+             InlineKeyboardButton('Fɪʟᴛᴇʀꜱ', callback_data='filters') 
         ],  [
             InlineKeyboardButton('⟸ Bᴀᴄᴋ', callback_data='forward'),
             InlineKeyboardButton('🏠 𝙷𝙾𝙼𝙴 🏠', callback_data='start')
@@ -2393,7 +2393,7 @@ async def cb_handler(client: Client, query: CallbackQuery):
         buttons = [[
              InlineKeyboardButton('🪄 Gᴇɴᴇʀᴀᴛᴇ Pᴀꜱꜱᴡᴏʀᴅꜱ 🖍️', callback_data='genpas'),
         ],  [ 
-             InlineKeyboardButton('ꜰɪʟᴛᴇʀꜱ', callback_data='filters'),   
+             InlineKeyboardButton('Iɴꜱᴛᴀ Vɪᴅᴇᴏꜱ', callback_data='insta'),   
              InlineKeyboardButton('📨 Sʜᴀʀᴇ Tᴇxᴛ 📝', callback_data='share') 
         ],  [ 
              InlineKeyboardButton('Rename', callback_data='r_txt'),   
@@ -2623,6 +2623,22 @@ async def cb_handler(client: Client, query: CallbackQuery):
         )
         await query.message.edit_text(
             text=script.SONG_TXT.format(query.from_user.mention),
+            reply_markup=reply_markup,
+            parse_mode=enums.ParseMode.HTML
+        )
+
+    elif query.data == "insta":
+        buttons = [[
+            InlineKeyboardButton('⇍ ʙᴀᴄᴋ ⇏', callback_data='forward')
+        ]]
+        reply_markup = InlineKeyboardMarkup(buttons)
+        await client.edit_message_media(
+            query.message.chat.id, 
+            query.message.id, 
+            InputMediaPhoto(random.choice(PICS))
+        )
+        await query.message.edit_text(
+            text=script.INI_TXT.format(query.from_user.mention),
             reply_markup=reply_markup,
             parse_mode=enums.ParseMode.HTML
         )
