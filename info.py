@@ -32,7 +32,7 @@ LOG_CHANNEL = int(environ.get('LOG_CHANNEL', '-1002391269521'))
 ADMINS = [int(admin) if id_pattern.search(admin) else admin for admin in environ.get('ADMINS', '6762558871').split()]
 
 # This Is File Channel Where You Upload Your File Then Bot Automatically Save It In Database 
-CHANNELS = [int(ch) if id_pattern.search(ch) else ch for ch in environ.get('CHANNELS', '-1002069400808').split()]
+CHANNELS = [int(ch) if id_pattern.search(ch) else ch for ch in environ.get('CHANNELS', '-1002489528366 -1002069400808 -1002251860287 -1002397280633 -1002297410701 -1002441627959 -1002348399921').split()]
 auth_users = [int(user) if id_pattern.search(user) else user for user in environ.get('AUTH_USERS', '6762558871').split()]
 AUTH_USERS = (auth_users + ADMINS) if auth_users else []
 
