@@ -289,7 +289,7 @@ Bʏ @Itzheart_bot """
 
 𝗠𝗲𝘀𝘀𝗮𝗴𝗲 <b>: {}</b>"""
 
-    CAPTION = """<b>{file_name}\n\n𝖩𝗈𝗂𝗇➥ 「<a href="https://t.me/addlist/C4yToj80w35kOGI1">ᴄʟᴀꜱꜱɪᴄ ᴄɪɴᴇᴍᴀᴢᴢ</a>」</b>"""
+    CAPTION = """<b>{file_name}\n\n𝖩𝗈𝗂𝗇➥ 「<a href="https://t.me/TamizhFiles">Tᴀᴍɪᴢʜ Fɪʟᴇꜱ ™</a>」</b>"""
 
     USERS_TXT = """👋 ʜᴇʏ {},
 
