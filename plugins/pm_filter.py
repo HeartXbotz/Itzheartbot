@@ -1885,9 +1885,8 @@ async def cb_handler(client: Client, query: CallbackQuery):
 
     except Exception as e:
         await query.answer(f"❌ Error: {str(e)}", show_alert=True)
-            return
-    # don't change anything without contacting me @kingvj01
-
+        return  # Properly indented
+    
     elif query.data == "reqinfo":
         await query.answer(text=script.REQINFO, show_alert=True)
 
