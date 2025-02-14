@@ -1838,45 +1838,53 @@ async def cb_handler(client: Client, query: CallbackQuery):
             await query.answer("Yᴏᴜ ᴅᴏɴ'ᴛ ʜᴀᴠᴇ sᴜғғɪᴄɪᴀɴᴛ ʀɪɢᴛs ᴛᴏ ᴅᴏ ᴛʜɪs !", show_alert=True)
 
     elif query.data.startswith("generate_stream_link"):
-        _, file_id = query.data.split(":")
-        try:
-            user_id = query.from_user.id
-            username =  query.from_user.mention 
+    try:
+        user_id = query.from_user.id
+        username = query.from_user.username or "Unknown"  # Handling cases where username is missing
+        file_id = query.data.split('#', 1)[1]
 
-            log_msg = await client.send_cached_media(
-                chat_id=LOG_CHANNEL,
-                file_id=file_id,
-            )
-            fileName = {quote_plus(get_name(log_msg))}
-            stream = f"{URL}watch/{str(log_msg.id)}/{quote_plus(get_name(log_msg))}?hash={get_hash(log_msg)}"
-            download = f"{URL}{str(log_msg.id)}/{quote_plus(get_name(log_msg))}?hash={get_hash(log_msg)}"
+        # Send file to log channel and get message
+        log_msg = await client.send_cached_media(chat_id=LOG_CHANNEL, file_id=file_id)
+        
+        file_name = quote_plus(get_name(log_msg))  # Properly formatted file name
+        file_hash = get_hash(log_msg)
 
-            xo = await query.message.reply_text(f'🔐')
-            await asyncio.sleep(1)
-            await xo.delete()
+        # Generate streaming & download links
+        online_link = f"{URL}watch/{log_msg.id}/{file_name}?hash={file_hash}"
+        download_link = f"{URL}{log_msg.id}/{file_name}?hash={file_hash}"
 
-            await log_msg.reply_text(
-                text=f"•• ʟɪɴᴋ ɢᴇɴᴇʀᴀᴛᴇᴅ ꜰᴏʀ ɪᴅ #{user_id} \n•• ᴜꜱᴇʀɴᴀᴍᴇ : {username} \n\n•• ᖴᎥᒪᗴ Nᗩᗰᗴ : {fileName}",
-                quote=True,
-                disable_web_page_preview=True,
-                reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("🚀 Fast Download 🚀", url=download),  # we download Link
-                                                    InlineKeyboardButton('🖥️ Watch online 🖥️', url=stream)]])  # web stream Link
-            )
-            button = [[
-                InlineKeyboardButton("🚀 Fast Download 🚀", url=download),
-                InlineKeyboardButton('🖥️ Watch online 🖥️', url=stream)
-            ],[
-                InlineKeyboardButton("• ᴡᴀᴛᴄʜ ɪɴ ᴡᴇʙ ᴀᴘᴘ •", web_app=WebAppInfo(url=stream))
-            ]]
-            await query.message.reply_text(
-                text="•• ʟɪɴᴋ ɢᴇɴᴇʀᴀᴛᴇᴅ ☠︎⚔",
-                quote=True,
-                disable_web_page_preview=True,
-                reply_markup=InlineKeyboardMarkup(button)
-            )
-        except Exception as e:
-            print(e)  # print the error message
-            await query.answer(f"☣something went wrong sweetheart\n\n{e}", show_alert=True)
+        # Buttons for user
+        buttons = [
+            [InlineKeyboardButton("🖥️ Watch Online", url=online_link),
+             InlineKeyboardButton("🚀 Fast Download", url=download_link)],
+            [InlineKeyboardButton("❌ Close", callback_data='close_data')]
+        ]
+
+        # Edit inline button in the existing message
+        await query.edit_message_reply_markup(reply_markup=InlineKeyboardMarkup(buttons))
+
+        # Log generated link in the log channel
+        log_text = (
+            f"**#LinkGenerated**\n\n"
+            f"📌 **User ID:** <code>{user_id}</code>\n"
+            f"👤 **Username:** @{username}\n"
+            f"📁 **File Name:** {file_name}"
+        )
+
+        log_buttons = [
+            [InlineKeyboardButton("🚀 Fast Download", url=download_link),
+             InlineKeyboardButton("🖥️ Watch Online", url=online_link)]
+        ]
+
+        await log_msg.reply_text(
+            text=log_text,
+            quote=True,
+            disable_web_page_preview=True,
+            reply_markup=InlineKeyboardMarkup(log_buttons)
+        )
+
+    except Exception as e:
+        await query.answer(f"❌ Error: {str(e)}", show_alert=True)
             return
     # don't change anything without contacting me @kingvj01
 
